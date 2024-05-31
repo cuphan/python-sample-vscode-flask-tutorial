@@ -20,7 +20,7 @@ variables:
   #environmentName: '<your-web-app-name>'
 
   # Project root folder.
-  #projectRoot: $(System.DefaultWorkingDirectory)
+  projectRoot: $(System.DefaultWorkingDirectory)
 
   # change this to match the Python runtime version running on your web app.
   pythonVersion: '3.11'
