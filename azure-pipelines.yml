@@ -31,35 +31,35 @@ variables:
 stages:
 
   - stage: Build
-    displayName: Build stage
+    displayName: "Build stage"
     jobs:
       - job: BuildJob
         pool:
           vmImage: $(vmImageName)
         steps:
-          - displayName: "Use Python $(pythonVersion)"
-            task: UsePythonVersion@0
+          - task: UsePythonVersion@0
+            displayName: "Use Python $(pythonVersion)"
             inputs:
               versionSpec: '$(pythonVersion)'
 
-          - displayName: "Install requirements"
-            script: |
+          - script: |
               python -m venv antenv
               source antenv/bin/activate
               python -m pip install --upgrade pip
               pip install setup
               pip install --target="./.python_packages/lib/site-packages" -r ./requirements.txt
             workingDirectory: $(projectRoot)
+            displayName: "Install requirements"
 
-          - displayName: "Archive files"
-            task: ArchiveFiles@2
+          - task: ArchiveFiles@2
             inputs:
               rootFolderOrFile: '$(projectRoot)'
               includeRootFolder: false
               archiveType: zip
               archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
               replaceExistingArchive: true
+            displayName: "Archive files"
 
-          - displayName: "Upload package"
-            upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+          - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
             artifact: drop
+            displayName: "Upload package"
